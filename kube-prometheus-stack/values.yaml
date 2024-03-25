@@ -15,12 +15,3 @@ kube-prometheus-stack:
       serviceMonitorNamespaceSelector:
         matchLabels:
           useServiceMonitor: "true"
-      tolerations:
-        - key: "CriticalAddonsOnly"
-          operator: "Equal"
-          value: "true"
-          effect: "NoSchedule"
-        - key: "kubernetes.azure.com/scalesetpriority"
-          operator: "Equal"
-          value: "spot"
-          effect: "NoSchedule"
