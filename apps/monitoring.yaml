@@ -6,9 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/gbasileGP/foe-local-k8s'
-    path: kube-prometheus-stack
+    repoURL: 'https://github.com/gbasileGP/foe-local-k8s.git'
     targetRevision: HEAD
+    path: kube-prometheus-stack
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: monitoring
@@ -16,3 +19,4 @@ spec:
     automated:
       selfHeal: true
       prune: true
+      
