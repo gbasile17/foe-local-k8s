@@ -1,0 +1,200 @@
+diagnosticMode:
+  enabled: false
+image:
+  registry: docker.io
+  repository: bitnami/redis-cluster
+  tag: 7.2.4-debian-12-r9
+  digest: ""
+  pullPolicy: Always
+  debug: false
+## Network Policy configuration
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+##
+networkPolicy:
+  enabled: true
+  allowExternal: true
+  allowExternalEgress: true
+  ingressNSMatchLabels: {}
+  ingressNSPodMatchLabels: {}
+serviceAccount:
+  create: true
+  automountServiceAccountToken: false
+rbac:
+  create: false
+  role:
+    ## @param rbac.role.rules Rules to create. It follows the role specification
+    ## rules:
+    ##  - apiGroups:
+    ##    - extensions
+    ##    resources:
+    ##      - podsecuritypolicies
+    ##    verbs:
+    ##      - use
+    ##    resourceNames:
+    ##      - gce.unprivileged
+    ##
+    rules: []
+podDisruptionBudget: {}
+
+minAvailable: "1"
+maxUnavailable: ""
+
+containerSecurityContext:
+  enabled: true
+  seLinuxOptions: null
+  runAsUser: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  privileged: false
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+  seccompProfile:
+    type: "RuntimeDefault"
+usePassword: true
+password: "themagicword"
+
+tls:
+  enabled: false
+
+service:
+  ports:
+    redis: 6379
+  nodePorts:
+    redis: ""
+
+persistence:
+  enabled: true
+  path: /bitnami/redis/data
+  storageClass: "Standard"
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
+  matchLabels: {}
+  matchExpressions: {}
+persistentVolumeClaimRetentionPolicy:
+  enabled: false
+
+volumePermissions:
+  enabled: false
+
+podSecurityPolicy:
+  create: false
+
+redis:
+  command: []
+  args: []
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  podManagementPolicy: Parallel
+  automountServiceAccountToken: false
+  hostAliases: []
+  hostNetwork: false
+  useAOFPersistence: "yes"
+  containerPorts:
+    redis: 6379
+    bus: 16379
+  defaultConfigOverride: "" ## ref: https://redis.io/topics/config
+  configmap: ""
+  extraEnvVars: []
+  extraEnvVarsCM: ""
+  extraEnvVarsSecret: ""
+  podAnnotations: {}
+  resourcesPreset: "nano"
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 5
+
+  startupProbe:
+    enabled: false
+    path: /
+    initialDelaySeconds: 300
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+
+
+cluster:
+  init: true
+  nodes: 3
+  replicas: 1
+  externalAccess:
+    enabled: false
+    hostMode: false
+    service:
+      disableLoadBalancerIP: false
+      loadBalancerIPAnnotaion: ""
+      type: LoadBalancer
+      port: 6379
+
+## Prometheus Exporter / Metrics
+##
+metrics:
+  enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/redis-exporter
+    tag: 1.58.0-debian-12-r3
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  resourcesPreset: "nano"
+  extraArgs: {}
+  extraEnvVars: []
+  containerPorts:
+    http: 9121
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "{{ .Values.metrics.containerPorts.http }}"
+  podLabels: {}
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: null
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    privileged: false
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
+  serviceMonitor:
+    enabled: false
+
+  prometheusRule:
+    enabled: false
+
+  priorityClassName: ""
+
+  service:
+    type: ClusterIP
+    ports:
+      http: 9121
+    clusterIP: ""
+    loadBalancerIP: ""
+    annotations: {}
+    labels: {}
+
+sysctlImage:
+  enabled: false
