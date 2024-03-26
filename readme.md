@@ -1,13 +1,14 @@
 # Local K8s Stack
 
+
 This repo is a runbook for how to host a local kubernetes deployment (minicube) on Ubuntu with monitoring (Prometheus, Grafana), caching (redis), and ArgoCD as the deployment mechanism. 
 
 ## Prerequisites 
-[Docker](https://www.docker.com/)
-[Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-[Helm](https://helm.sh/docs/intro/install/)
-[Argo CLI](https://argo-workflows.readthedocs.io/en/latest/walk-through/argo-cli/)
-[Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+- [Helm](https://helm.sh/docs/intro/install/)
+- [Argo CLI](https://argo-workflows.readthedocs.io/en/latest/walk-through/argo-cli/)
+- [Git](https://git-scm.com/downloads)
 
 ## Cluster Setup
 
@@ -66,6 +67,11 @@ spec:
       selfHeal: true
       prune: true
 
+```
+
+Deploy this with:
+```bash
+kubectl apply /path/to/unbrella.yamml
 ```
 
 Once deployed, Argo will monitor the apps directory for new deployments.
