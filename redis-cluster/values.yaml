@@ -55,8 +55,8 @@ containerSecurityContext:
 
 
 usePassword: false
-# existingSecret: "redis-pw"
-# existingSecretPasswordKey: "password"
+existingSecret: "redis-pw"
+existingSecretPasswordKey: "password"
 
 tls:
   enabled: false
