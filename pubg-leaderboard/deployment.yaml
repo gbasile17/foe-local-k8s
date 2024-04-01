@@ -15,7 +15,7 @@ spec:
       containers:
       - name: pubg-leaderboard
         image: pubg-leaderboard:latest # Replace with your container image
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:
