@@ -4,7 +4,7 @@ metadata:
   name: pubg-leaderboard-config
 data:
   APP_PORT: "8080"
-  REDIS_ADDR: "redis-cluster.redis-cluster.svc.cluster.local:6379"
+  REDIS_ADDR: "redis-cluster-headless.redis-cluster.svc.cluster.local:6379"
   REDIS_PASS: "themagicword"
   REDIS_DB: "0"
   PUBG_API_ENDPOINT: "https://api.pubg.com/shards/steam"
