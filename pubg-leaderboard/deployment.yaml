@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubg-leaderboard-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pubg-leaderboard
+  template:
+    metadata:
+      labels:
+        app: pubg-leaderboard
+    spec:
+      containers:
+      - name: pubg-leaderboard
+        image: pubg-leaderboard:latest # Replace with your container image
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "100m" # Request 100 millicpu
+            memory: "128Mi" # Request 128 MB of memory
+          limits:
+            cpu: "200m" # Limit to 200 millicpu
+            memory: "256Mi" # Limit to 256 MB of memory
+        envFrom:
+        - configMapRef:
+            name: pubg-leaderboard-config
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 10 # Delay before liveness probe is initiated
+          periodSeconds: 60 # How often to perform the probe
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 8080
+          initialDelaySeconds: 5 # Delay before readiness probe is initiated
+          periodSeconds: 30 # How often to perform the probe
