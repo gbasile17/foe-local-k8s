@@ -5,7 +5,7 @@ metadata:
 data:
   APP_PORT: "8080"
   REDIS_ADDR: "redis-cluster.redis-cluster.svc.cluster.local:6379"
-  REDIS_PASS: "82fvrwfEZt"
+  REDIS_PASS: "chd859kg5B"
   REDIS_DB: "0"
   PUBG_API_ENDPOINT: "https://api.pubg.com/shards/steam"
   PUBG_API_KEY: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwNTJjYjEzMC1kMjZjLTAxM2MtODE1Yy03ZTJlMGQ5ZmZjMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExOTg1OTk4LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii05NzgxMmYyYS0wZGYwLTRkYTYtOGZkOS1hN2IyYjRlY2Y3OGUifQ.TMdfFQulaYQSwAOg1icdprWGv_S7ZgCm8pxFy1Tb_B8"
