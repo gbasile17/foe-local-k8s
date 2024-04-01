@@ -1,7 +1,3 @@
-global:
-  redis:
-    password: "themagicword"
-
 diagnosticMode:
   enabled: false
 image:
@@ -56,7 +52,11 @@ containerSecurityContext:
     drop: ["ALL"]
   seccompProfile:
     type: "RuntimeDefault"
+
+
 usePassword: true
+existingSecret: "redis-pw"
+existingSecretPasswordKey: "password"
 
 tls:
   enabled: false
