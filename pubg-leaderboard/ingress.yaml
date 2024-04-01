@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pubg-leaderboard-ingress
+spec:
+  rules:
+  - host: pubg-leaderboard.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pubg-leaderboard-service
+            port:
+              number: 80

@@ -10,26 +10,27 @@ This repo is a runbook for how to host a local kubernetes deployment (minicube) 
 - [Argo CLI](https://argo-workflows.readthedocs.io/en/latest/walk-through/argo-cli/)
 - [Git](https://git-scm.com/downloads)
 
-## Cluster Setup
+# Cluster Setup
 
-### Install Minikube
+## Install Minikube
 
 ```bash
 sudo apt update && sudo apt upgrade -y
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 minikube config set driver docker
-minikube start 
+minikube start --cpus=2 --memory=4g --disk-size=5g
+
 ```
 
-### Install Argo CD
+## Install Argo CD
 
 ```bash
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-#### Accessing Argo via Localhost
+### Accessing Argo via Localhost
 
 Forward argo port to 8080 and change admin password
 
@@ -42,7 +43,7 @@ argocd account update-password
 
 Argo's UI is accessible via the browser at localhost:8080
 
-#### Setup Argo App Directory
+### Setup Argo App Directory
 
 To initialize Argo with a GitOps style approach, we need to bootstrap Argo's configuration by deploying an Argo app that looks for other Argo apps.
 
@@ -69,14 +70,9 @@ spec:
 
 ```
 
-Deploy this with:
-```bash
-kubectl apply /path/to/unbrella.yamml
-```
-
 Once deployed, Argo will monitor the apps directory for new deployments.
 
-## Monitoring Setup
+## Setup Monitoring
 
 ### Prometheus/Grafana
 
@@ -151,10 +147,79 @@ Get the login password fror admin with
 kubectl -n monitoring get secret prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 -d
 ```
 
+## Setup Redis Cluster
 
+We will deploy redis-cluster from the latest helm chart.
 
+Argo app declaration:
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-cluster
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/gbasileGP/foe-local-k8s.git'
+    targetRevision: HEAD
+    path: redis-cluster
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: redis-cluster
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+```
 
+to get the password to the cluster run this command
+```
+kubectl get secret --namespace redis-cluster redis-cluster -o jsonpath="{.data.redis-password}" | base64 --decode
+```
+use this password to connect to the redis cluster
 
+## Deploy More Apps to the cluster
+
+You may deploy any other container applications to this cluster by committing new Argo app manifests in the /apps directory, and providing the manifests within the repo.
+
+## Enable Nginx Ingress
+
+to enable the Nginx ingress controller in Minicube, run the following command.
+
+```yaml
+minikube addons enable ingress
+```
+
+Now you may deploy ingress resources that point to your applications like so:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pubg-leaderboard-ingress
+spec:
+  rules:
+  - host: pubg-leaderboard.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pubg-leaderboard-service
+            port:
+              number: 80
+
+```
+
+To access the application first get the minicube IP
+```bash
+
+```
 
 
 
