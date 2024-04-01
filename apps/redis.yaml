@@ -16,7 +16,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: redis-cluster
   syncPolicy:
-    # automated:
-    #   selfHeal: true
-    #   prune: true
+    automated:
+      selfHeal: true
+      prune: true
 
