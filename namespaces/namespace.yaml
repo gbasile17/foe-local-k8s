@@ -17,4 +17,9 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: pubg-leaderboard
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minio-operator
 
