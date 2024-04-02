@@ -9,3 +9,6 @@ data:
   REDIS_DB: "0"
   PUBG_API_ENDPOINT: "https://api.pubg.com/shards/pc-na"
   PUBG_API_KEY: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwNTJjYjEzMC1kMjZjLTAxM2MtODE1Yy03ZTJlMGQ5ZmZjMDQiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNzExOTg1OTk4LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii05NzgxMmYyYS0wZGYwLTRkYTYtOGZkOS1hN2IyYjRlY2Y3OGUifQ.TMdfFQulaYQSwAOg1icdprWGv_S7ZgCm8pxFy1Tb_B8"
+  MINIO_ENDPOINT: "minio.minio-tenant.svc.cluster.local:9000"
+  MINIO_ACCESS_KEY: "minio"
+  MINIO_SECRET: "minio123"
