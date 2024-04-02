@@ -1,6 +1,5 @@
 # Local K8s Stack
 
-
 This repo is a runbook for how to host a local kubernetes deployment (minicube) on Ubuntu with monitoring (Prometheus, Grafana), caching (redis), and ArgoCD as the deployment mechanism. 
 
 ## Prerequisites 
@@ -182,6 +181,14 @@ kubectl get secret --namespace redis-cluster redis-cluster -o jsonpath="{.data.r
 ```
 use this password to connect to the redis cluster
 
+You may set your own password for redis by creating a kubernetes secret and setting that secret as the password in the helm chart.
+
+## Setup MinIO
+
+Like the above applications. Create an argo app for the minio operator and create a helm chart in the repo for the operator to deploy. 
+
+Once the operator is deployed you may deploy a tenant instance via the tenant chart
+
 ## Deploy More Apps to the cluster
 
 You may deploy any other container applications to this cluster by committing new Argo app manifests in the /apps directory, and providing the manifests within the repo.
@@ -218,7 +225,12 @@ spec:
 
 To access the application first get the minicube IP
 ```bash
+minikube ip
+```
+Then, add an entry to /etc/hosts
 
+```plaintext
+<minikube-ip> <application-hostname>
 ```
 
 
