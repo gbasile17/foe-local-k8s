@@ -5,4 +5,4 @@ type: application
 dependencies:
   - name: operator
     version: 5.0.14
-    repository: https://operator.min.io/minio
+    repository: https://operator.min.io
